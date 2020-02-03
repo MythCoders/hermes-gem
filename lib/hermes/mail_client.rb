@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'hermes/mail_client'
+
 module Hermes
   class MailClient < BaseClient
     def new_mail(message)
