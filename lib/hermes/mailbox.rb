@@ -2,8 +2,10 @@
 
 module Hermes
   class Mailbox
-    def initialize(*args)
-      @environment = args[:environment]
+    attr_accessor :settings
+
+    def initialize(values)
+      self.settings = {}.merge!(values)
     end
 
     def deliver!(mail)
@@ -23,12 +25,16 @@ module Hermes
               bcc: @mail[:bcc],
               subject: @mail[:subject],
               body: @mail[:body],
-              environment: @environment,
+              environment: environment,
               content_type: @mail[:content_type],
               sender_name: sender_name,
               sender_email: sender_email
             }
       }
+    end
+
+    def environment
+      @settings[:environment]
     end
 
     def sender_name
