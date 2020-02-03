@@ -4,7 +4,6 @@ require 'faraday'
 require 'faraday_middleware'
 require 'json'
 require 'hashie'
-require_relative 'error'
 require 'mime-types'
 
 module Hermes
