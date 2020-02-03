@@ -3,7 +3,7 @@
 require_relative 'hermes/version'
 
 module Hermes
-  def self.name
-    "Hermes API version #{Hermes::VERSION}"
+  def self.version
+    "Hermes API v#{Hermes::VERSION}"
   end
 end
