@@ -1,18 +1,10 @@
 # frozen_string_literal: true
 
-require 'hermes/version'
-require_relative 'hermes/meta'
 require_relative 'hermes/client'
-require 'hermes/railtie' if defined?(Rails)
+require_relative 'hermes/version'
 
 module Hermes
-  GET    = 'get'
-  POST   = 'post'
-  PUT    = 'put'
-  PATCH  = 'patch'
-  DELETE = 'delete'
-
-  def self.version
+  def self.name
     "Hermes API version #{Hermes::VERSION}"
   end
 
