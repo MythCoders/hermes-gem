@@ -5,12 +5,14 @@ require_relative 'mail_client'
 
 module Hermes
   class Gateway
-    delegate :new_mail, to: :mail_client
+    class << self
+      delegate :new_mail, to: :mail_client
 
-    private
+      private
 
-    def mail_client
-      Hermes::MailClient
+      def mail_client
+        @mail_client ||= Hermes::MailClient
+      end
     end
   end
 end

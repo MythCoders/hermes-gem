@@ -10,8 +10,13 @@ module Hermes
 
     def deliver!(mail)
       @mail = mail
+      puts mail.inspect
 
-      Hermes::Gateway.new.new_mail mail_params
+      Hermes::Gateway.new_mail mail_params
+    rescue Hermes::Error => e
+      Raven.extra_context mail: mail
+      Raven.extra_context message: mail_params
+      raise e
     end
 
     private
@@ -20,29 +25,32 @@ module Hermes
       {
         message:
             {
-              to: @mail[:to],
-              cc: @mail[:cc],
-              bcc: @mail[:bcc],
-              subject: @mail[:subject],
-              body: @mail[:body],
+              to: @mail.to || nil,
+              cc: @mail.cc || nil,
+              bcc: @mail.bcc || nil,
+              subject: @mail.subject,
+              sender: sender,
+              body: body,
               environment: environment,
-              content_type: @mail[:content_type],
-              sender_name: sender_name,
-              sender_email: sender_email
+              content_type: content_type
             }
       }
     end
 
+    def sender
+      @mail.from
+    end
+
+    def content_type
+      @mail.content_type.include?('html') ? 'html' : 'txt'
+    end
+
+    def body
+      content_type == 'html' ? @mail.html_part : @mail.text_part
+    end
+
     def environment
       @settings[:environment]
-    end
-
-    def sender_name
-      @mail[:from]
-    end
-
-    def sender_email
-      @mail[:from]
     end
   end
 end
