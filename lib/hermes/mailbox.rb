@@ -15,7 +15,8 @@ module Hermes
       Hermes::Gateway.new_mail mail_params
     rescue Hermes::Error => e
       Raven.extra_context mail: mail
-      Raven.extra_context message: mail_params
+      Raven.extra_context api_params: mail_params
+      Raven.extra_context api_client: Hermes.version
       raise e
     end
 
@@ -25,9 +26,9 @@ module Hermes
       {
         message:
             {
-              to: @mail.to || nil,
-              cc: @mail.cc || nil,
-              bcc: @mail.bcc || nil,
+              to: @mail.to || [],
+              cc: @mail.cc || [],
+              bcc: @mail.bcc || [],
               subject: @mail.subject,
               sender: sender,
               body: body,
@@ -38,7 +39,7 @@ module Hermes
     end
 
     def sender
-      @mail.from
+      @mail.from.first
     end
 
     def content_type
@@ -46,7 +47,7 @@ module Hermes
     end
 
     def body
-      content_type == 'html' ? @mail.html_part : @mail.text_part
+      @mail.body.encoded
     end
 
     def environment
