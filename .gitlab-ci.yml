@@ -1,0 +1,48 @@
+image: "ruby:2.6.3"
+
+before_script:
+  - apt-get update -qq
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-document
+  - gem install bundler-audit --no-document
+  - bundle install --path=vendor/gem_cache --jobs $(nproc)  "${FLAGS[@]}"
+
+.cache_bundler: &cache_bundler
+  cache:
+    untracked: true
+    key: "$CI_BUILD_REF_NAME"
+    paths:
+      - vendor/gem_cache
+stages:
+  - test
+
+rspec:
+  <<: *cache_bundler
+  stage: test
+  coverage: '/LOC\s\(\d+\.\d+%\)\scovered/'
+  variables:
+    HERMES_API_URL: "http://hermes/api/"
+    HERMES_API_KEY: dave
+    HERMES_API_SECRET: dave
+  script:
+    - bundle exec rspec --format documentation --format RspecJunitFormatter --out rspec.xml
+  artifacts:
+    paths:
+      - coverage/
+      - rspec.xml
+    name: "Pipeline $CI_PIPELINE_ID Rspec Report"
+    reports:
+      junit: rspec.xml
+
+audit:
+  <<: *cache_bundler
+  stage: test
+  script:
+    - bundle audit check --update
+
+rubocop:
+  <<: *cache_bundler
+  stage: test
+  script:
+    - bundle exec rubocop -c .rubocop.yml

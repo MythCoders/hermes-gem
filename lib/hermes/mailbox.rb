@@ -1,62 +1,40 @@
 # frozen_string_literal: true
 
-module Hermes
-  class Mailbox
-    HTML = 'html'
-    TXT = 'txt'
+require_relative 'email_converter'
 
+module Hermes
+  # Handles sending [Mail] to Hermes
+  class Mailbox
     def initialize(values)
       self.settings = {}.merge!(values)
     end
 
     attr_accessor :settings
 
+    # Deliver an email to Hermes
+    #
+    # @param mail [Mail] email that is to be delivered
+    # @return [Boolean] if the request was successful
     def deliver!(mail)
       @mail = mail
-
       Hermes::Gateway.new_mail mail_params
     rescue Hermes::Error => e
-      sentry_context if Required::Module.const_defined?(:Raven)
+      sentry_context if defined?(:Raven)
       raise e
     end
 
     private
 
     def mail_params
-      {
-        message:
-            {
-              to: @mail.to || [],
-              cc: @mail.cc || [],
-              bcc: @mail.bcc || [],
-              subject: @mail.subject,
-              sender: sender,
-              body: body,
-              environment: environment,
-              content_type: content_type
-            }
-      }
-    end
-
-    def sender
-      @sender ||= @mail.from.first
-    end
-
-    def content_type
-      @content_type ||= @mail.content_type.include?(HTML) ? HTML : TXT
-    end
-
-    def body
-      @body ||= content_type == HTML ? @mail.html_part.body.decoded : @mail.text_part
+      Hermes::EmailConverter.convert(@mail).merge(environment)
     end
 
     def environment
-      @settings[:environment]
+      { message: { environment: @settings[:environment] } }
     end
 
     def sentry_context
-      Raven.extra_context mail: mail
-      Raven.extra_context api_params: mail_params
+      Raven.extra_context mail: @mail
       Raven.extra_context api_client: Hermes.version
     end
   end

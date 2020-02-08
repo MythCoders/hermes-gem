@@ -5,6 +5,7 @@
 .vscode
 .byebug_history
 .ds_store
+/coverage
 /log
 /tmp
 /doc
@@ -19,3 +20,11 @@
 
 *.key
 *.pdf
+
+*.env
+Gemfile.lock
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
