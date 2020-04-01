@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'base_client'
-require_relative 'mail_client'
+require_relative 'clients/base_client'
+require_relative 'clients/mail_client'
 
 module Hermes
   class Gateway
@@ -11,7 +11,7 @@ module Hermes
       private
 
       def mail_client
-        @mail_client ||= Hermes::MailClient
+        @mail_client ||= Hermes::Clients::MailClient
       end
     end
   end

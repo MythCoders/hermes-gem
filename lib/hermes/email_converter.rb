@@ -2,10 +2,10 @@
 
 module Hermes
   class EmailConverter
-    class << self
-      HTML = 'html'
-      TXT = 'plain'
+    HTML = 'text/html'
+    TXT = 'text/plain'
 
+    class << self
       def convert(mail)
         @mail = mail
         mail_params
@@ -33,7 +33,7 @@ module Hermes
       end
 
       def content_type
-        @mail.content_type
+        @mail.content_type.include?('html') ? HTML : TXT
       end
 
       def body

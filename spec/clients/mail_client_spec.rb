@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe Hermes::MailClient do
+RSpec.describe Hermes::Clients::MailClient do
   include_context :messages_api
 
-  it_behaves_like 'Hermes::BaseClient'
+  it_behaves_like 'Hermes::Clients::BaseClient'
 
   describe '.new_mail' do
     context 'when the API can not be found' do

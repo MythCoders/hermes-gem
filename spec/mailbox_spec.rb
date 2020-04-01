@@ -4,13 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Hermes::Mailbox do
   let(:environment) { 'test' }
-  let(:settings) do
-    {
-      environment: environment
-    }
-  end
-
-  subject { Hermes::Mailbox.new(settings) }
+  subject { Hermes::Mailbox.new(environment: environment) }
 
   it 'settings contains correct env value' do
     expect(subject.settings[:environment]).to eq(environment)
@@ -21,6 +15,12 @@ RSpec.describe Hermes::Mailbox do
 
     before do
       messages_data.merge!(message: { environment: environment })
+    end
+
+    it 'calls EmailConverter' do
+      allow(Hermes::Gateway).to receive(:new_mail).with(messages_data).and_return(true)
+      expect(Hermes::EmailConverter).to receive(:convert).with(mail).and_call_original
+      subject.deliver!(mail)
     end
 
     it 'calls Gateway' do

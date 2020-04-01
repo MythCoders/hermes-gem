@@ -15,12 +15,55 @@ RSpec.describe Hermes::EmailConverter do
       expect(subject).to eq(messages_data)
     end
 
-    context 'when content_type is html' do
-      let(:body) { html_body }
-      let(:content_type) { 'text/html' }
+    it 'converts subject' do
+      expect(subject[:message][:subject]).to eq(mail.subject)
+    end
 
-      it 'returns proper format for Hermes API' do
-        expect(subject).to eq(messages_data)
+    it 'converts body' do
+      expect(subject[:message][:body]).to eq(mail.body.decoded)
+    end
+
+    it 'converts sender' do
+      expect(subject[:message][:sender]).to eq(mail.from.first)
+    end
+
+    it 'converts content_type' do
+      expect(subject[:message][:content_type]).to eq(mail.content_type)
+    end
+
+    context 'when no cc or bcc are supplied' do
+      let(:cc) { [] }
+      let(:bcc) { [] }
+
+      it 'cc and bcc are empty' do
+        expect(subject[:message][:cc]).to eq(mail.cc)
+        expect(subject[:message][:bcc]).to eq(mail.bcc)
+      end
+    end
+
+    context 'when multiple cc or bcc are supplied' do
+      let(:cc) { [Faker::Internet.email, Faker::Internet.email] }
+      let(:bcc) { [Faker::Internet.email, Faker::Internet.email] }
+
+      it 'all emails are copied' do
+        expect(subject[:message][:cc]).to eq(mail.cc)
+        expect(subject[:message][:bcc]).to eq(mail.bcc)
+      end
+    end
+
+    context 'when a funky context_type is provided' do
+      junklet :content_type
+
+      it 'default to plain text' do
+        expect(subject[:message][:content_type]).to eq(described_class::TXT)
+      end
+    end
+
+    context 'when content_type contains html' do
+      let(:content_type) { described_class::HTML }
+
+      it 'uses full content type' do
+        expect(subject[:message][:content_type]).to eq(described_class::HTML)
       end
     end
   end
