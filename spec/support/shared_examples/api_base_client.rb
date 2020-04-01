@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'Hermes::BaseClient' do
+RSpec.shared_examples 'Hermes::Clients::BaseClient' do
   let(:base_api_url) { ENV['HERMES_API_URL'] }
   let(:api_key) { ENV['HERMES_API_KEY'] }
   let(:api_secret) { ENV['HERMES_API_SECRET'] }
