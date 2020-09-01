@@ -13,6 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Ruby 2.6
         uses: actions/setup-ruby@v1
         with:
@@ -27,5 +28,5 @@ jobs:
           gem build *.gemspec
           gem push --KEY github --host https://rubygems.pkg.github.com/mythcoders *.gem
         env:
-          GEM_HOST_API_KEY: ${{secrets.GPR_AUTH_TOKEN}}
-          OWNER: username
+          GEM_HOST_API_KEY: ${{secrets.GITHUB_TOKEN}}
+          OWNER: mythcoders
