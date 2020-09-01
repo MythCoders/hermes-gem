@@ -25,16 +25,17 @@ module Hermes
 
     private
 
-    def mail_params
-      Hermes::EmailConverter.convert(@mail).merge(environment)
+    def mail_params      
+      { message: Hermes::EmailConverter.convert(@mail).merge(environment) }
     end
 
     def environment
-      { message: { environment: @settings[:environment] } }
+      { environment: @settings[:environment] }
     end
 
     def sentry_context
       Raven.extra_context mail: @mail
+      Raven.extra_context api_params: mail_params
       Raven.extra_context api_client: Hermes.version
     end
   end

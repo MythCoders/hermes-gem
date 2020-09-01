@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock', '~> 3.8'
 
   spec.add_runtime_dependency 'activesupport', '>= 4.2.2'
-  spec.add_runtime_dependency 'faraday', '~> 0.11'
+  spec.add_runtime_dependency 'faraday', '>= 1.0'
   spec.add_runtime_dependency 'faraday_middleware'
   spec.add_runtime_dependency 'hashie', '>= 3.4.0'
   spec.add_runtime_dependency 'mail', '>= 2.5.4'

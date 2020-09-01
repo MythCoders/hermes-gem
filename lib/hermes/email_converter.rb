@@ -15,16 +15,13 @@ module Hermes
 
       def mail_params
         {
-          message:
-              {
-                to: @mail.to || [],
-                cc: @mail.cc || [],
-                bcc: @mail.bcc || [],
-                subject: @mail.subject,
-                sender: sender,
-                body: body,
-                content_type: content_type
-              }
+          to: @mail.to || [],
+          cc: @mail.cc || [],
+          bcc: @mail.bcc || [],
+          subject: @mail.subject,
+          sender: sender,
+          body: body,
+          content_type: content_type
         }
       end
 

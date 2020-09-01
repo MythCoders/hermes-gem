@@ -30,7 +30,7 @@ RSpec.describe Hermes::Clients::MailClient do
       let(:messages_api_status) { 202 }
       let(:messages_data) { {} }
 
-      it 'throws returns true' do
+      it 'returns true' do
         expect(described_class.new_mail(messages_data)).to be(true)
       end
     end

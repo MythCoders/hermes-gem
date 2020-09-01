@@ -49,7 +49,7 @@ module Hermes
         #
         # @return [String] base url of the api endpoint
         def base_url
-          ENV['HERMES_API_URL'] || 'https://hermes.mythcoders.io/api/'
+          ENV['HERMES_API_URL'] || 'https://hermes.mythcoders.net/api/'
         end
 
         # def parse_response(response)
