@@ -35,6 +35,7 @@ module Hermes
 
     def sentry_context
       Raven.extra_context mail: @mail
+      Raven.extra_context api_params: mail_params
       Raven.extra_context api_client: Hermes.version
     end
   end
