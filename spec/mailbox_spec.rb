@@ -12,9 +12,20 @@ RSpec.describe Hermes::Mailbox do
 
   describe '.deliver!' do
     include_context :mail
-
-    before do
-      messages_data.merge!(message: { environment: environment })
+    let(:messages_data) do
+      {
+        message:
+            {
+              to: to,
+              cc: cc,
+              bcc: bcc,
+              subject: mail_subject,
+              sender: sender,
+              body: body,
+              content_type: content_type,
+              environment: environment
+            }
+      }
     end
 
     it 'calls EmailConverter' do
