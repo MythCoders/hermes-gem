@@ -5,4 +5,3 @@
 ## Checklist
 
 - [ ] Update `Hermes::VERSION`
-- [ ] Changelog

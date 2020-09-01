@@ -20,8 +20,8 @@ module Hermes
           bcc: @mail.bcc || [],
           subject: @mail.subject,
           sender: sender,
-          body: body,
-          content_type: content_type
+          html_body: html_body,
+          text_body: text_body
         }
       end
 
@@ -29,12 +29,12 @@ module Hermes
         @mail.from.first
       end
 
-      def content_type
-        @mail.content_type.include?('html') ? HTML : TXT
+      def html_body
+        @mail.html_part.decoded
       end
 
-      def body
-        @mail.body.decoded
+      def text_body
+        @mail.text_part.decoded
       end
     end
   end
