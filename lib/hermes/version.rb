@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Hermes
-  VERSION = '0.4.pre.b1'
+  VERSION = '0.4'
 end
