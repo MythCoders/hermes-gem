@@ -8,19 +8,22 @@ on:
 
 jobs:
   build:
-    name: Test
+    name: Build + Test
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Ruby
+      - name: Ruby Install
         uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.6"
 
-      - name: Run Rspec
+      - name: Bundle Install
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3
+
+      - name: Rspec
+        run: |
           bundle exec rspec -f doc
