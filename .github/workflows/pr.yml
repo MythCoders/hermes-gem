@@ -1,4 +1,4 @@
-name: Gem Test
+name: PR CI
 
 on:
   push:
@@ -8,16 +8,16 @@ on:
 
 jobs:
   build:
-    name: Build + Publish
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Ruby 2.6
+      - name: Set up Ruby
         uses: actions/setup-ruby@v1
         with:
-          version: 2.6.3
+          ruby-version: "2.6.3"
 
       - name: Run Rspec
         run: |
