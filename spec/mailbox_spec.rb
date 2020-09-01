@@ -21,8 +21,8 @@ RSpec.describe Hermes::Mailbox do
               bcc: bcc,
               subject: mail_subject,
               sender: sender,
-              body: body,
-              content_type: content_type,
+              html_body: html_body,
+              text_body: text_body,
               environment: environment
             }
       }

@@ -25,7 +25,7 @@ module Hermes
 
     private
 
-    def mail_params      
+    def mail_params
       { message: Hermes::EmailConverter.convert(@mail).merge(environment) }
     end
 
