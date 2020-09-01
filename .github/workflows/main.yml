@@ -42,14 +42,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Push gem to GitHub Packages
+      - name: Configure GitHub Package Registry
         run: |
-          mkdir -p $HOME/.gem
-          touch $HOME/.gem/credentials
-          chmod 0600 $HOME/.gem/credentials
-          printf -- "---\n:github: Bearer ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+          mkdir -p ~/.gem
+          touch ~/.gem/credentials
+          chmod 600 ~/.gem/credentials
+          echo ":github: Bearer ${GITHUB_TOKEN}" >> ~/.gem/credentials
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Push gem to GitHub
+        run: |
           gem build *.gemspec
-          gem push --KEY github --host https://rubygems.pkg.github.com/mythcoders *.gem
+          gem push --KEY github --host https://rubygems.pkg.github.com/mythcoders/hermes *.gem
         env:
           GEM_HOST_API_KEY: ${{secrets.GITHUB_TOKEN}}
-          OWNER: mythcoders
