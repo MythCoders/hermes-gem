@@ -45,9 +45,9 @@ jobs:
           mkdir -p ~/.gem
           touch ~/.gem/credentials
           chmod 600 ~/.gem/credentials
-          echo ":github: Bearer ${GITHUB_TOKEN}" >> ~/.gem/credentials
+          echo ":github: Bearer ${PACKAGE_TOKEN}" >> ~/.gem/credentials
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
 
       - uses: actions/checkout@v2
 
