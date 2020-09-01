@@ -7,13 +7,14 @@ require 'hermes/version'
 Gem::Specification.new do |spec|
   spec.name          = 'hermes'
   spec.version       = Hermes::VERSION
-  spec.date          = '2020-02-07'
+  spec.license       = 'MIT'
+  spec.date          = '2020-09-01'
   spec.authors       = ['Justin Adkins']
   spec.email         = ['justin.adkins@mythcoders.com']
 
   spec.summary       = 'Hermes API'
   spec.description   = 'The public API for Hermes'
-  spec.homepage      = 'https://gitlab.com/mythcoders/hermes-gem'
+  spec.homepage      = 'https://github.com/mythcoders/hermes-gem'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -32,8 +33,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'railties'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '>= 3.9'
-  spec.add_development_dependency 'rspec-junklet', '>= 2.2'
   spec.add_development_dependency 'rspec_junit_formatter'
+  spec.add_development_dependency 'rspec-junklet', '>= 2.2'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-rspec'
   spec.add_development_dependency 'simplecov'
