@@ -30,11 +30,11 @@ module Hermes
       end
 
       def html_body
-        @mail.html_part.decoded
+        @mail.html_part&.decoded
       end
 
       def text_body
-        @mail.text_part.decoded
+        @mail.text_part&.decoded
       end
     end
   end
