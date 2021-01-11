@@ -18,9 +18,9 @@ module Hermes
     def deliver!(mail)
       @mail = mail
       Hermes::Gateway.new_mail mail_params
-    rescue Hermes::Error => e
-      Hermes::DebugHandler.apply(debug_information)
-      raise e
+    # rescue Hermes::Error => e
+    #   Hermes::DebugHandler.apply(debug_information)
+    #   raise e
     end
 
     private
