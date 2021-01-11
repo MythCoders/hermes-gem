@@ -22,6 +22,7 @@ module Hermes
             faraday.adapter Faraday.default_adapter
             faraday.headers['Content-Type'] = content_type
             faraday.headers['Accept'] = 'application/json'
+            faraday.headers['X-API-Version'] = Hermes.version
           end
         end
 
@@ -49,7 +50,7 @@ module Hermes
         #
         # @return [String] base url of the api endpoint
         def base_url
-          ENV['HERMES_API_URL'] || 'https://hermes.mythcoders.net/api/'
+          ENV['HERMES_API_URL'] || 'https://hermes.mythcoders.net/api'
         end
 
         # def parse_response(response)

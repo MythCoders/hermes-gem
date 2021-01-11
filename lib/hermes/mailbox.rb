@@ -3,7 +3,7 @@
 require_relative 'email_converter'
 
 module Hermes
-  # Handles sending [Mail] to Hermes
+  # Accepts [Mail] sent by Rails and delivers to Hermes
   class Mailbox
     def initialize(values)
       self.settings = {}.merge!(values)
@@ -18,25 +18,29 @@ module Hermes
     def deliver!(mail)
       @mail = mail
       Hermes::Gateway.new_mail mail_params
-    rescue Hermes::Error => e
-      sentry_context if defined?(:Raven)
-      raise e
+    # rescue Hermes::Error => e
+    #   Hermes::DebugHandler.apply(debug_information)
+    #   raise e
     end
 
     private
 
     def mail_params
-      { message: Hermes::EmailConverter.convert(@mail).merge(environment) }
+      @mail_params ||= {
+        message: Hermes::EmailConverter.convert(@mail).merge(environment)
+      }
     end
 
     def environment
-      { environment: @settings[:environment] }
+      @environment ||= { environment: @settings[:environment] }
     end
 
-    def sentry_context
-      Raven.extra_context mail: @mail
-      Raven.extra_context api_params: mail_params
-      Raven.extra_context api_client: Hermes.version
+    def debug_information
+      {
+        mail: @mail,
+        api_params: mail_params,
+        api_client: Hermes.version
+      }
     end
   end
 end
