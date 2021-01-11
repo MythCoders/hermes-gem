@@ -21,7 +21,7 @@ module Hermes
         private
 
         def api_url
-          "#{base_url}messages"
+          "#{base_url}/messages"
         end
       end
     end
